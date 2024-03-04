@@ -22,14 +22,29 @@ def show_graph_bar(quantization_levels, snr_values):
 
 
 def show_graph_line(quantization_levels, snr_values):
-    # Plotting the results as a bar graph
+    # Plotting the results as a line graph
     plt.plot(quantization_levels, snr_values, marker='o')
     plt.xlabel('Quantization Levels')
     plt.ylabel('SNR (dB)')
     plt.title('SNR vs. Quantization Levels')
     plt.grid(True)
+
+    # Set x-axis ticks to quantization levels
+    plt.xticks(quantization_levels)
+
+    # Set fewer y-axis ticks for better readability
+    num_ticks = min(len(snr_values), 5)  # Set a maximum of 5 y-axis ticks
+    y_tick_step = (max(snr_values) - min(snr_values)) / (num_ticks - 1)
+    plt.yticks(np.arange(min(snr_values), max(snr_values) + 1, y_tick_step))
+
+    # Adjust tick parameters for better readability
+    plt.tick_params(axis='x', which='both', direction='inout', labelsize=8)
+    plt.tick_params(axis='y', which='both', direction='inout', labelsize=8)
+
+    # Ensure labels fit in the plot area
+    plt.tight_layout()
+
     plt.show()
-    pass
 
 def print_info(audio_signal,sample_rate,bits_per_sample):
     print("Audio Signal Shape:", audio_signal.shape)
@@ -53,14 +68,18 @@ def quantizer(audio_signal,n):
     xe = audio_signal - xq
     return xe
 
-def compute_snr(signal, noise):
-    signal_power = np.sum(np.square(signal))
-    noise_power = np.sum(np.square(noise))
-    snr = 10 * np.log10(signal_power / noise_power)
-    return snr
+# def compute_snr(signal, noise):
+#     signal_power = np.sum(np.square(signal))
+#     noise_power = np.sum(np.square(noise))
+#     snr = 10 * np.log10(signal_power / noise_power)
+#     return snr
 
+def compute_snr(signal, noise):
+    signal_var = np.var(signal)
+    noise_var = np.var(noise)
+    snr = 10 * np.log10(signal_var / noise_var)
+    return snr
 def Assignment_1():
-    set_level = 12
     print(file_path)
     audio_signal, sample_rate, bits_per_sample = readwav(file_path)
     print_info(audio_signal, sample_rate, bits_per_sample)
@@ -77,7 +96,3 @@ def Assignment_1():
 
 
     show_graph_line(quantization_levels,snr_values)
-
-
-if __name__ == "__main__":
-    Assignment_1()
