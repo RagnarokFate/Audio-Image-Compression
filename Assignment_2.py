@@ -1,44 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
-import math
+import collections
 import cv2
 import random
 
 clown_image_path = "Assignment_2/Clown256B.bmp"
 barbara_image_path = "Assignment_2/Barbara.bmp"
-
-def read_bmp(filename):
-    # Open the image file
-    img = Image.open(filename)
-    # Convert the image data to a numpy array
-    img_data = np.array(img)
-    return img_data
-
-def getSymbleAndProb(vector):
-    sorted_vector = sorted(vector.ravel())
-    symble_table = [sorted_vector[0]]
-    prob_by_symble = [1]
-    index = 0
-    for i in range(1, len(sorted_vector)):
-        if sorted_vector[i-1] == sorted_vector[i]:
-            prob_by_symble[index] += 1
-        else:
-            index += 1
-            symble_table.append(sorted_vector[i])
-            prob_by_symble.append(1)
-    prob_by_symble = [p / len(vector) for p in prob_by_symble]
-    return symble_table, prob_by_symble
-
-
-def entropy_length(vector):
-    _, prob = getSymbleAndProb(vector)
-    entropy = 0
-    for p in prob:
-        entropy -= p * np.log2(p)
-    entropy *= len(vector)
-    return entropy
-
 
 def plot_prediction_models(image_name, mode1_bitrates, mode1_psnr, mode2_bitrates, mode2_psnr):
     plt.figure(figsize=(8, 6))
@@ -81,19 +49,90 @@ def show_graph():
                            noise_mode2_psnr)
     pass
 
+# =============================================================================================
+clown_image_path = "Assignment_2/Clown256B.bmp"
+barbara_image_path = "Assignment_2/Barbara.bmp"
+
+def read_bmp(filename):
+    img = Image.open(filename)
+    img_data = np.array(img)
+    return img_data
+
+
+barbara_image_path = "Assignment_2/Barbara.bmp"
+
+
+def entropy_length(vector):
+    vector = np.asarray(vector).ravel()
+    probabilities, _ = np.histogram(vector, bins=np.arange(min(vector), max(vector)+2), density=True)
+
+    probabilities = probabilities[probabilities != 0]
+    entropy_value = -np.sum(probabilities * np.log2(probabilities))
+
+    code_length = (entropy_value * len(vector))
+    return code_length
+
+
+class Node:
+    def __init__(self, symbol=None, freq=0, left=None, right=None):
+        self.symbol = symbol
+        self.freq = freq
+        self.left = left
+        self.right = right
+
+def build_huffman_tree(frequency):
+    nodes = [Node(symbol=symbol, freq=freq) for symbol, freq in frequency.items()]
+
+    while len(nodes) > 1:
+        nodes = sorted(nodes, key=lambda x: x.freq)
+        left = nodes.pop(0)
+        right = nodes.pop(0)
+        parent = Node(freq=left.freq + right.freq, left=left, right=right)
+        nodes.append(parent)
+
+    return nodes[0]
+
+def traverse_huffman_tree(node, code='', huffman_codes={}):
+    if node.symbol is not None:
+        huffman_codes[node.symbol] = code
+    else:
+        traverse_huffman_tree(node.left, code + '0', huffman_codes)
+        traverse_huffman_tree(node.right, code + '1', huffman_codes)
+
+def calculate_huffman_code_length(huffman_codes, frequency):
+    code_length = 0
+    for symbol, code in huffman_codes.items():
+        code_length += len(code) * frequency[symbol]
+    return code_length
+
+def calculate_minimum_code_length(image_vector):
+    frequency = collections.Counter(tuple(image_vector.flatten()))
+    tree_root = build_huffman_tree(frequency)
+    huffman_codes = {}
+    traverse_huffman_tree(tree_root, huffman_codes=huffman_codes)
+    code_length = calculate_huffman_code_length(huffman_codes, frequency)
+    return code_length
+
+
+
 def Assignment_2():
-    barbara_image = read_bmp(barbara_image_path)
-    Clown_image = read_bmp(clown_image_path)
+    barbara_image = cv2.imread(barbara_image_path, cv2.IMREAD_GRAYSCALE)
 
-    # data = np.array(img).reshape(-1)
-    encoded_length = entropy_length(barbara_image)
-
-    print(f" array length {-1 * encoded_length}")
-
-    # show_graph()
+    barbara_entropy_length = entropy_length(barbara_image)
+    print(f"Barbara Entropy length: {barbara_entropy_length}")
 
 
-    # width, height = barbara_image.shape[:2]
-    # vector = [random.randint(0, 255) for _ in range(width * height)]
+    barbara_huffman_length = calculate_minimum_code_length(barbara_image)
+    print(f"Barbara Huffman length: {barbara_huffman_length}")
 
+    random_vector = [random.randint(0, 255) for _ in range(len(barbara_image))]
+    random_vector = np.array(random_vector)
+    random_code_length = entropy_length(random_vector.flatten())
+    print("Random Vector entropy_length :", random_code_length)
+    random_huffman_length = calculate_minimum_code_length(random_vector.flatten())
+    print(f"Random Vector Huffman length: {random_huffman_length}")
+
+if __name__ == "__main__":
+    show_graph()
+    Assignment_2()
     pass
