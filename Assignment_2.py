@@ -132,7 +132,3 @@ def Assignment_2():
     random_huffman_length = calculate_minimum_code_length(random_vector.flatten())
     print(f"Random Vector Huffman length: {random_huffman_length}")
 
-if __name__ == "__main__":
-    show_graph()
-    Assignment_2()
-    pass
