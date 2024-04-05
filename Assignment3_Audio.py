@@ -23,7 +23,6 @@ def print_info(audio_signal,sample_rate,bits_per_sample):
     print("Bits Per Sample:", bits_per_sample)
     pass
 
-# Function to generate DTMF signal for a given digit
 def generate_dtmf_signal(digit, duration, fs):
     dtmf_freqs = {
         '1': (697, 1209), '2': (697, 1336), '3': (697, 1477),
@@ -47,16 +46,14 @@ def Assignment3_Audio():
 
 
     # Parameters
-    duration = 1.0  # Duration of the signal in seconds
-    fs = 44100  # Sampling frequency
+    duration = 1.0
+    fs = 44100
 
-    # Generate DTMF signal for digit "5"
-    dtmf_signal = generate_dtmf_signal('5', duration, fs)
+    dtmf_signal = generate_dtmf_signal('8', duration, fs)
 
-    # Plot the time-domain waveform of the DTMF signal
     plt.figure(figsize=(10, 4))
     plt.plot(np.linspace(0, duration, len(dtmf_signal)), dtmf_signal)
-    plt.title('DTMF Signal (Digit "5") - Time Domain')
+    plt.title('DTMF Signal (Digit "8") - Time Domain')
     plt.xlabel('Time (s)')
     plt.ylabel('Amplitude')
     plt.grid(True)
@@ -65,35 +62,26 @@ def Assignment3_Audio():
     wavfile.write(dtmf_audio_path, sample_rate, dtmf_signal)
 
 
-    # Synthesize voice recording of digit "5" using text-to-speech synthesis (replace with actual text-to-speech synthesis code)
-    voice_recording = audio_signal  # Placeholder for synthesized voice recording
+    voice_recording = audio_signal
 
-    # Plot the time-domain waveform of the voice recording
     plt.figure(figsize=(10, 4))
     plt.plot(np.linspace(0, duration, len(voice_recording)), voice_recording)
-    plt.title('Voice Recording of Digit "5" - Time Domain')
+    plt.title('Voice Recording of Digit "8" - Time Domain')
     plt.xlabel('Time (s)')
     plt.ylabel('Amplitude')
     plt.grid(True)
     plt.show()
 
-    # Adjust the length of the DTMF signal to match the length of the voice recording
     if len(dtmf_signal) < len(voice_recording):
-        # Zero-pad the DTMF signal
         dtmf_signal = np.pad(dtmf_signal, (0, len(voice_recording) - len(dtmf_signal)), 'constant')
     elif len(dtmf_signal) > len(voice_recording):
-        # Truncate the DTMF signal
         dtmf_signal = dtmf_signal[:len(voice_recording)]
 
-    # Combine voice recording and DTMF signal
     combined_signal = voice_recording + dtmf_signal
 
     wavfile.write(combined_audio_path, sample_rate, dtmf_signal)
 
-    # # Combine voice recording and DTMF signal
-    # combined_signal = voice_recording + dtmf_signal[:len(voice_recording)]
 
-    # Plot the time-domain waveform of the combined signal
     plt.figure(figsize=(10, 4))
     plt.plot(np.linspace(0, duration, len(combined_signal)), combined_signal)
     plt.title('Combined Signal - Time Domain')
@@ -102,10 +90,8 @@ def Assignment3_Audio():
     plt.grid(True)
     plt.show()
 
-    # Compute spectrum of the combined signal
     frequencies, spectrum = plt.psd(combined_signal, Fs=fs)
 
-    # Plot the spectrum
     plt.figure(figsize=(10, 4))
     plt.plot(frequencies, 10 * np.log10(spectrum))
     plt.title('Spectrum of Combined Signal')
@@ -114,10 +100,8 @@ def Assignment3_Audio():
     plt.grid(True)
     plt.show()
 
-    # Compute spectrogram of the combined signal
     f, t, Sxx = spectrogram(combined_signal, fs)
 
-    # Plot the spectrogram
     plt.figure(figsize=(10, 4))
     plt.pcolormesh(t, f, 10 * np.log10(Sxx))
     plt.title('Spectrogram of Combined Signal')
