@@ -1,0 +1,417 @@
+% Document class and packages
+\documentclass[letterpaper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+\usepackage{amsmath, amssymb,lipsum,fancyhdr,graphicx,listings}
+
+% Page setup
+\geometry{margin=1in}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\lhead{\textit{Audio \& Image Compression - Assignment 1}}  % Escape '&' with '\&'
+
+% Section and list formatting
+\titleformat{\section}[block]{\normalfont\Large\bfseries}{\thesection}{1em}{}[]
+\setlist[itemize]{left=0pt, label=--, itemsep=4pt}
+
+% Document information
+\title{Audio \& Image Compression}
+\author{
+    \begin{tabular}{c}
+        Bashar Beshoti (207370248) \\
+        Mohammad Khalel (207406968) \\
+        Mohammad Arabi (206985533)
+    \end{tabular}
+}
+\date{\today}
+
+
+\begin{document}
+
+% First page: Course details and author information
+\maketitle
+
+\section*{Course Information}
+\begin{itemize}
+    \item \textbf{Course Title:} Audio \& Image Compression  % Escape '&' with '\&'
+    \item \textbf{Course Code:} 203.3880
+    \item \textbf{Assignment :} 1
+\end{itemize}
+
+\newpage
+
+\section*{Question 1:}
+Given the auto-correlation function:
+$r_k = \sum_{n=1}^{N-K-1} X_n \cdot X_{n+k} | k = 0 , ... , N-1$ 
+
+(1) It is required to prove that \(k(r)\) is symmetric, meaning $r_{k} = r_{-k}$ .
+
+(2) It is required to prove that the global maximum of the function is obtained at \(r = 0\), and it is equal to the signal energy.
+
+(3) It is necessary to explain (or show graphically, formal proof is not mandatory) why, if the signal \(n(X)\) is periodic with period \(P\), a local maximum is obtained at ... , $\pm3$, $\pm2$, $\pm0$, in the auto-correlation function.
+
+(4) It is necessary to explain why the properties in items 2 and 3 are used in the computation of the Pitch.
+
+
+\subsection*{Solution 1:}
+
+(1) To prove that the auto-correlation function: is symmetric, we need to prove that $r_{k} = r_{-k}$. \\
+Since, $r_k = \sum_{n=1}^{N-K-1} X_n \cdot X_{n+k}$ \\
+
+Let's compensate a $-k$ instead of $k$.therefore,
+\begin{align*}
+r_{-k} &= \sum_{n=1}^{N+K-1} X_n \cdot X_{n-k} \\
+&= \sum_{n=-k}^{-1} X_{n+k} \cdot X_{n} + \sum_{n=1}^{N-K-1} X_{n+k} \cdot X_{n} + \sum_{n=n-k}^{N-1} X_{n+k} \cdot X_{n}
+\end{align*}
+Since $\sum_{n=-k}^{-1} X_{n+k} \cdot X_{n}$  and $\sum_{n=n-k}^{N-1} X_{n+k} \cdot X_{n}$ equals zero that is because of $X_i = 0 | \forall i > N-1$  and because $X_i = 0 | \forall i < 0$ . As a result: 
+\[r_{-k} = \sum_{n=1}^{N+K-1} X_n \cdot X_{n-k} = \sum_{n=1}^{N-K-1} X_{n+k} \cdot X_{n} = r_k \]    
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{1pt}}
+
+(2) Given the following auto-correlation function:
+\[r_k = \sum_{n=1}^{N-K-1} X_n \cdot X_{n+k}\]
+In order to prove that the global maximum at \(r = 0\) and it is equal to the signal energy, we can use the fact that the auto-correlation function is maximized when comparing the signal with itself (i.e., at lag \(k = 0\)).
+
+For \(k = 0\), the auto-correlation function becomes:
+\[ r_0 = \sum_{n=1}^{N-1} X_n \cdot X_n = \sum_{n=1}^{N-1} |X_n|^2 \]
+
+based from our previous lectures, we've learned that both signals . Therefore, the global maximum of the function is obtained at \(r = 0\), and it is equal to the signal energy, as it required.
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{1pt}} \\
+
+
+
+(3) The signal \(n(X)\) is periodic with a period \(P\). Due to the repetitive nature of voiced speech, characterized by recurring patterns in time frequency with a period \(P\), this leads to the existence of local maxima at regular intervals within the ranges \[0, \pm P, \pm 2P, \pm 3P, ...\]. 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{images_assignemtn1/Demonstation_1_3.png}
+    \caption{Diagram describes a multiple local maximum in each $P$ period for question 3}
+    \label{fig:enter-label}
+\end{figure}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{1pt}} \\
+
+(4)  As per our prior lessons, the pitch value is determined by identifying local maxima within each period \(p\). Subsequently, we can compute the pitch using the previously determined local maxima in questions (2) and (3).
+
+\newpage
+
+\section*{Question 2:}
+The system requires modeling an analog signal with the following characteristics:
+A. In frequency: composed of four frequencies as depicted.
+B. In time: the amplitude of the signal is \(\pm 1\) VOLT.
+    
+(1) The system needs to have the capability to sample at a frequency of at least $1.1khz$ , with a resolution size of at least $2m$Volt.
+    required to draw block diagram for full sampling system with regards to: \\
+    \begin{itemize}
+        \item required sampling frequency
+        \item Required filter.
+        \item Resolution in millivolts.
+    \end{itemize}
+    
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{images_assignemtn1/Question2.png}
+    \caption{}
+    \label{fig:enter-label}
+\end{figure}
+
+(2) Draw a sketch of the spectrogram of such an input signal - how the spectrogram will look (in a schematic way, of course) at the input to the system, and how it will appear at the output of the system. Illustrate a general illustration, including axes (please note the meaning of each axis) and explain.
+
+
+(3) Given the assumptions provided in the question, what will be the sampling rate at the sampler's output?
+
+\subsection*{Solution 2:}
+
+(1) Let's calculate the sampling frequency;
+\[f_{sampling} = f_{max} \cdot 2 = 1100 \cdot 2 = 2200HZ = 2.2KHZ\]
+While for the filter, it needs to be at least $1.1khz$. and for the resolution; it is given that the amplitude of signal is $\pm 1$ volt. then a bit is needed and 9 bits for the signal strength. \\
+\[\frac{1}{2^k} = 2m volt \rightarrow k = 9\]
+Therefore, there are 11 bits for resolution in milli-volts which are 9 bits for signal strength and 2 for $2mvolt$ resolution. \\
+(2) 
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images_assignemtn1/Input.png}
+        \caption{Input sketch - a sketch of the spectrogram of an input signal }
+        \label{fig:input}
+    \end{minipage}
+    \hspace{0.5cm}
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images_assignemtn1/output.png}
+        \caption{Output sketch - a sketch of the spectrogram of an output signal }
+        \label{fig:output}
+    \end{minipage}
+\end{figure}
+
+
+\paragraph{Demonstration :} 
+The Y axis presents the frequency and the X axis represents the time. as it is in Spectrogram view. where warmer colors like red in our example represent higher intensities (higher amplitudes or power), and cooler colors (blue) represent lower intensities. Brighter colors indicate stronger signal components.\\
+
+
+(3) 
+\begin{align*}
+\text{Sampling-rate} &= \text{Filter frequency} \cdot \text{Resolution} \\
+&= 2200 \text{Hz} \cdot 11 \text{ bits} \\
+&= 24200
+\end{align*}
+
+\newpage
+
+\section*{Question 3:}
+(1) What are the advantages and disadvantages of the ADPCM coding method compared to DPCM?
+
+(2) You must decide which coding method to use for encoding white noise (Noise Random). Which encoder is more advisable to use – provide reasoning!
+
+(3) Compare, based on the Mean Squared Error (MSE) criterion, the performance of a simple DPCM predictor to two predictors: one predicting based on the last 2 samples, and the other predicting based on the previous and next samples, respectively. Make the comparison for the following input sequence:
+
+\[ X(n) = [79, 78, 81, 81, 84, 82, 78, 80] \]
+
+(Assume that both preceding and following samples have a value of 80)
+
+Explain in principle and demonstrate when the prediction error is small, when it is large, and why?!
+
+\subsection*{Solution 3:}
+1. \textbf{Advantages and Disadvantages of ADPCM Coding Method:}
+   \begin{itemize}
+       \item \textbf{Advantages:}
+       \begin{enumerate}
+           \item Pitch and formants are included in the calculations, leading to fewer errors.
+           \item Utilizes more bits, resulting in higher quality and fewer errors.
+           \item Fast error correction.
+       \end{enumerate}
+       \item \textbf{Disadvantages:}
+       \begin{enumerate}
+           \item Requires prior knowledge of the number of bits.
+           \item Implementation is more difficult compared to DPCM and has worse timing.
+       \end{enumerate}
+   \end{itemize}
+
+2. Knowing that white noise doesn't affect quality since the noise is heard by our ears, the best coding method in the case of white noise is one that uses fewer bits, such as ADPCM.
+
+3. Initially, for each of the three methods, the Mean Squared Error (MSE) is calculated:
+   \begin{itemize}
+       \item \textbf{DPCM Method:}
+       \begin{align*}
+           \text{Prediction} &= 80\ 79\ 78\ 81\ 81\ 84\ 82\ 78\ 80 \\
+           \text{Error} &= 1\ 1\ 3\ 0\ 3\ 2\ 4\ 2 \\
+           \text{MSE} &= \frac{1^2 + 1^2 + 3^2 + 3^2 + 2^2 + 4^2 + 2^2}{8} = 7
+       \end{align*}
+       
+       \item \textbf{Predictive Coding on the Previous Two Samples:}
+       \begin{align*}
+           \text{Prediction} &= 80\ 79.5\ 78.5\ 79.5\ 81\ 82.5\ 83\ 80 \\
+           \text{Error} &= 1\ 1.5\ 2.5\ 1.5\ 3\ 0.5\ 5\ 0 \\
+           \text{MSE} &= \frac{1^2 + 1.5^2 + 2.5^2 + 1.5^2 + 3^2 + 0.5^2 + 5^2}{8} = 5.57
+       \end{align*}
+       
+       \item \textbf{Predictive Coding on the Previous and Next Samples:}
+       \begin{align*}
+           \text{Prediction} &= 79\ 80\ 79.5\ 82.5\ 81.5\ 81\ 81\ 79 \\
+           \text{Error} &= 0\ 2\ 1.5\ 1.5\ 2.5\ 1\ 3\ 1 \\
+           \text{MSE} &= \frac{2^2 + 1.5^2 + 1.5^2 + 2.5^2 + 1^2 + 3^2 + 1^2}{8} = 3.21875
+       \end{align*}
+   \end{itemize}
+
+   So, it can be seen that predictive coding on the previous and next samples yields the lowest MSE, indicating the best prediction because this method considers both the recent past and the near future. Therefore, its prediction tends to be better than the other two methods. \\
+   Overall, we observe large prediction errors when significant changes occur, for example, in the transition between 82 and 78, which resulted in the largest prediction error in the sequence. Otherwise, smaller prediction errors are obtained when the prediction is correct, especially with the last method that looks into the future for prediction.
+
+
+\newpage
+
+\section*{Question 4:}
+1. In the standard 10LPC encoder (as seen in the relevant slides):
+   \begin{itemize}
+       \item Sampling rate: 8 kHz
+       \item Length of each analysis frame: 180 samples
+       \item Each frame is encoded with 54 bits, and the total output bitrate of the encoder is 2400 bits per second.
+       \item In frames of the Voiced type, 4 bits are dedicated to encoding each of the ten filter coefficients.
+   \end{itemize}
+
+   A. If we plan a similar encoder called "5LPC" where only 5 coefficients are encoded, but 8 bits are given to each coefficient in terms of the number of bits for each filter coefficient, how and by how much will the bitrate at the encoder output change?
+
+   B. How and why do you think the voice quality at the decoder output will change? If the answer is positive, explain why.
+
+   C. What will happen to the bitrate and voice quality at the encoder output if we increase the analysis frame to 200 samples while keeping all other parameters (according to the standard)?
+
+\subsection*{Solution 4:}
+A. In the new case of "5 LPC," there are 5 coefficients instead of 10, and each coefficient consists of 8 bits. So, the total number of bits in the new system will be equal to:
+   \[5 \text{ (coefficients)} \times 8 \text{ (bits per coefficient)} = 40 \text{ bits}\] in the new framework.
+   The bit rate in the new system (5 LPC) will be:
+   \[40 \text{ bits} \times \left(\frac{2400 \text{ bits}}{54 \text{ bits}}\right) = 1777.777 \text{ bits per second}\].
+   Therefore, the bit rate at the encoder output will change to 1777.777 bits per second.
+
+   B. The quality of the code at the decoder output may change according to changes in the framework where there are fewer coefficients and more bits per coefficient.
+   \begin{itemize}
+       \item Fewer coefficients: When there are fewer coefficients for voice encoding, the information is formatted to save high frequencies.
+       \item More bits per coefficient: It may allow more detail and information for encoding but may result in a higher overhead on the encoded data.
+   \end{itemize}
+
+   C. The frame length directly affects the bit rate. The longer the frame, the larger the number of samples in each frame. The bit rate at the encoder output will adapt to longer frames, so it may be relatively low compared to the case where the frame length is 180 samples.
+   \begin{itemize}
+       \item Voice quality: Frame length affects the ability to separate and identify small details in the voice. Longer frames can handle small details at low frequencies and may cause faster loss of details in the bit rate.
+   \end{itemize}
+
+\newpage
+
+\section*{Question 5:}
+1. Load the file $IcyWind.wav$. Using Mouse (Right Click).  how many sampling bits for file display? \\
+2. Perform a PCM (pulse code modulation) test on 15 fibers and below until a noticeable difference is heard. In how many fibers, at least, will we need to represent the signal if we want to receive a signal without noise? \\
+3. What is the connection between signal quality and the level of received SNR (Signal-to-Noise Ratio)? \\
+4. Perform encoding using PCM and ADPCM methods for a signal with 5 fibers. Can it be inferred that one method is more efficient than the other? Elaborate.\\
+5. Use the two speech segments: wav0.speech and wav8.speech for LPC analysis under SPDemo. Listen to the files! \\
+6. Choose a voiced and unvoiced speech segment from each of the files and perform LPC analysis (Note: Use the Autocorrelation method). \\
+\begin{itemize}
+  \item How many formants can be clearly identified in each?\\
+  \item Can differences between male and female voices be characterized using this test? (Hint: Try to observe changes in formants and pitch over an entire word.) \\
+\end{itemize}
+7. Record yourselves saying any word that includes a voiced and unvoiced region. Demonstrate on this recording: \\
+   (In the sample at a rate of 16 KHz)\\
+   \begin{itemize}
+     \item What Pitch values do you observe? \\
+     \item How many formants and where? (Show the signal, mark the voiced and unvoiced regions.)
+   \end{itemize}
+   Please include the segments you recorded in wav files when submitting.\\
+8. Pass the files $Vega.wav$ \& $Depeche Mode.wav$ through the Phone Line Simulator under the "PHONE" tab, each one in turn. Listen to the original signal and the simulated signal. Compare them and explain what differences you perceive between the original signal and the simulated one.
+   - Specify where the differences are particularly noticeable, especially in the Depeche Mode segment, and why?
+\newpage
+
+\subsection*{Solution 5:}
+1. The file is represented in 16 bits per sample (16 bits/sample).
+
+2. Starting from the 11th bit, I began to hear noise (sampling with 11 bits was very low noise), and then PCM sampling with at least 12 bits is needed.
+
+3. Initially, we present in green the number of bits in the sampling and in blue the SNR value (in dB):
+\begin{align*}
+1 &\Rightarrow 13.69 - 2 \Rightarrow 7.30 - 3 \Rightarrow 1.10 - 4 \Rightarrow 5.05 \\
+5 &\Rightarrow 11.26 - 6 \Rightarrow 17.46 - 7 \Rightarrow 23.65 \\
+8 &\Rightarrow 29.80 - 9 \Rightarrow 36.31 - 10 \Rightarrow 43.30 \\
+11 &\Rightarrow 51.77 - 12-15 \Rightarrow \text{Identical! (zero noise)}
+\end{align*}
+Thus, SNR is the ratio between the signal and noise, and the relationship between the signal quality and the SNR level:
+As the SNR value increases (less noise), the quality increases, and when the SNR value decreases (more noise), the quality decreases.
+
+4. Yes, in the case of encoding a 5-bit signal, the ADPCM method is better than the PCM method. Thus, for the PCM method, the SNR is 11.26, and for the ADPCM method, the SNR is 24.37, so from what we said in paragraph 3, it can be concluded that the ADPCM method provides better quality for encoding a 5-bit signal compared to PCM, which is less good.
+
+6. In speech0.wav:
+   \begin{itemize}
+       \item Vocal segment at time 1.8-2~:
+       \begin{itemize}
+           \item 4 formants can be identified.
+           \item The pitch is around 180Hz~
+       \end{itemize}
+       \item Non-vocal segment at time 1.6-1.7~:
+       \begin{itemize}
+           \item 4 formants can be identified.
+           \item No pitch.
+       \end{itemize}
+   \end{itemize}
+   
+   In speech8.wav:
+   \begin{itemize}
+       \item Vocal segment at time 1.7-1.8~:
+       \begin{itemize}
+           \item 4 formants can be identified.
+           \item The pitch is around 101Hz~
+       \end{itemize}
+       \item Non-vocal segment at time 2-2.1~:
+       \begin{itemize}
+           \item 4 formants can be identified.
+           \item No pitch.
+       \end{itemize}
+   \end{itemize}
+   
+   Differences between male and female voices can be characterized using pitch. Thus, if we look at the length of a whole word in speech0.wav and also in speech8.wav, we see that the pitch for the man is much smaller than the pitch for the woman. Thus, for the man's voice (speech8.wav), the pitch range is 78-117Hz, and for the woman's voice (speech0.wav), the pitch range is 156-205Hz.
+
+7. 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{images_assignemtn1/Question_5_Secion_7_1.png}
+    \caption{image of the voiced}
+    \label{fig:sec_7_1}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{images_assignemtn1/Question_5_Secion_7_2.png}
+    \caption{After sampling at a rate of 16 KHz}
+    \label{fig:sec_7_2}
+\end{figure}
+
+\textbf{The value of Pitch that we get is : 52-137Hz }
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{images_assignemtn1/Question_5_Section_7_3.png}
+    \caption{Voiced section with 4 formats }
+    \label{fig:sec_7_3}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{images_assignemtn1/Question_5_Section_7_4.png}
+    \caption{Unvoiced section with 4 formats}
+    \label{fig:sec_7_4}
+\end{figure}
+
+\newpage 
+
+\paragraph{8.}
+   \begin{enumerate}
+       \item The length of the result is \(n+m-1\). We checked this in Python using the cross-correlation function, which is np.correlate.
+       \item In cross-correlation, the maximum value is obtained when the identification of the first signal with the inputs is the highest, meaning that during the correlation process, as we have more identification, the correlation value will increase, and then the maximum value will be obtained when we reach a point in the correlation process
+    \end{enumerate}
+\newpage
+
+\section*{Question 6:}
+\subsubsection*{PART I :}
+you should use function $xcorr$ that is in $MatLab$ to calculate cross-correlation between two signals. \\
+(A) For signal of size $n$ and a signal of size $m$. what is the length of the result upon cross-correlation? \\
+(B) Where will the maximum value be received? \\
+\subsubsection*{PART II :}
+you should write the function :
+\[\text{function s} = snr(in_{vec},out_{vec})\]
+this function calculate signal noise ratio between two vectors. the following program is an implementation of .WAV file read and it apply Quantization of $n$ bits.
+
+\begin{lstlisting}[language=Python, caption=, label=Python Code,gobble=0]
+def question_codetext(audio_signal):
+    n = 16
+
+    xq = np.floor((audio_signal + 1) * 2 ** (n - 1))
+    xq = xq / (2 ** (n - 1))
+    xq = xq - (2 ** n - 1) / (2 ** n)
+
+    xe = audio_signal - xq
+    return xe
+\end{lstlisting} 
+ Answer the following Questions: \\
+(A) explain in short how the program functions.\\
+(B) Perform quantization for 15 sub-channels and below to sub-channel 0.1, and calculate the SNR each time, using the function you wrote in the previous section. Display the results on a single graph. You can visualize the data using plot or bar functions. (Hint: The simplest way is to use a For loop and update n in each iteration of the loop).
+
+
+
+
+\subsection*{Solution 6:}
+\subsubsection*{PART I :}
+(A) Since the length of one signal is $m$ and the other is $n$. therefore, the cross correlation will result with a vector of $n+m-1$ length.
+(B) a maximum cross-correlation value occurs when the distance in vectors are zero.
+
+\subsubsection*{PART II :}
+(A) The \textbf{question\_codetext} function quantize an input audio signal to a specified number of bits $(n)$. It first scales the input signal and rounds it to the nearest integer, effectively quantizing it to $n$ bits. Then, it scales back the quantized signal to a range between -1 and 1 and centers it around zero. then, it calculates the quantization error by subtracting the quantized signal from the original input signal and returns this error. \\
+(B) 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{images_assignemtn1/SNR_Quantization.png}
+    \caption{SNR Vs Quantization}
+    \label{fig:enter-label}
+\end{figure}
+
+\end{document}

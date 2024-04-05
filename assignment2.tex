@@ -1,0 +1,558 @@
+% Document class and packages
+\documentclass[letterpaper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+\usepackage{amsmath, amssymb,lipsum,fancyhdr,graphicx,listings,xcolor}
+
+% Page setup
+\geometry{margin=1in}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\lhead{\textit{Audio \& Image Compression - Assignment 2}}  % Escape '&' with '\&'
+
+% Section and list formatting
+\titleformat{\section}[block]{\normalfont\Large\bfseries}{\thesection}{1em}{}[]
+\setlist[itemize]{left=0pt, label=--, itemsep=4pt}
+
+% Document information
+\title{Audio \& Image Compression}
+\author{Bashar Beshoti (207370248)
+}
+\date{\today}
+
+\begin{document}
+
+% First page: Course details and author information
+\maketitle
+
+\section*{Course Information}
+\begin{itemize}
+    \item \textbf{Course Title:} Audio \& Image Compression  % Escape '&' with '\&'
+    \item \textbf{Course Code:} 203.3880
+    \item \textbf{Assignment :} 2
+\end{itemize}
+
+\newpage
+\section{Sub-sampling - Questions:}
+Q1. The phenomenon of "aliasing" must be explained - what is the reason for this phenomenon and how Can it be prevented? In which images is impersonation more likely to be found after sub
+Sub-sampling (sampling) pictures of outdoor scenery or pictures inside buildings? \\
+
+\textcolor{blue}{A1.} Aliasing is a common phenomenon that can be seen upon sampling an audio or an image. it occurs when the sampling rate is lower than the Nyquist rate resulting in distortion or artifacts. To prevent aliasing, The sampling rate has to be equal or greater to Nyquist rate which is $2 \times f_{highest}$ . \\
+i.e \\
+\[F_{sampling} \geq 2\times f_{high}\]
+One the one hand, Outdoor scenery often contains high-frequency details such as foliage, fine textures, or intricate patterns, which can be prone to aliasing if not adequately sampled. On the other hand, images inside buildings may have less high-frequency content, depending on the scene, and therefore may be less susceptible to aliasing. 
+
+Q2. Sub-sampling must be done with different factors for the B256zone image. explain the
+The result visually when a filter is activated (length 5) compared to activation without
+filter. \\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{images_assignment2/image.png}
+    \caption{No Filter vs Sub-Sampling Filter}
+\end{figure}
+\textcolor{blue}{A.2}\paragraph{ Explanation:} its noticeable that the right image (with filter of length 5) is more blurry and has less details than the left image (no filter). the image frequency of original image would be high as a result of a lot in changes in color within each small distance. it logical to notice the difference such as jagged edges, recurrence  and other.   \\
+
+Q3. Open the B256CLown image". Deselect the spectrum display option and execute
+Sampling Sub by factor 2 once without aliasing-anti filter and a second time with
+A filter with a length of 17. What are the aliasing areas in the sample image? \\
+
+Please note: in addition to the visual sensation, do the following process with the two images The samples: \\
+\begin{itemize}
+    \item On the model image, point and click the right mouse, choose option 2 (subtract "put image on stack" and then Images). \\
+    \item Now go to the original image, and with the right mouse button, in the same menu Select: Subtract from image on stack. \\
+    \item A difference image is obtained that will help you see the differences between the images. \\
+\end{itemize}
+
+Repeat this process with 1:4 \& 1:2 ratio, Sampling Sub, with and without -anti filter
+aliasing in size 5 and 17, indicated in the table (personal impression on a scale of 1-5 where 5 This is the intensity of a strong disturbance) the intensity of this phenomenon in each of the cases. \\
+What are the conclusions from the above tests? \\
+\textcolor{blue}{A3}. Here are the following results:
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{images_assignment2/Q1S3.png}
+    \caption{Sub-Sampling no filter vs Sub-Sampling with filter}
+\end{figure}
+\newpage
+\paragraph{Visual sensation:}
+\subparagraph{1. The Subtraction between Samples} :
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{images_assignment2/Q1S3_23.png}
+    \caption{Subtraction between Samples - Left (F = 17), Right (F = 0)}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.70\linewidth]{images_assignment2/Q1S3_4.png}
+    \caption{For 1:2 sampling, the images of without filter and with filter (F=5 \& F=17) turns out to be this}
+    
+\end{figure}
+ 
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.70\linewidth]{images_assignment2/Q1S3_5.png}
+    \caption{For 1:4 sampling, the images of without filter and with filter (F=5 \& F=17) turns out to be this}
+    
+\end{figure}
+\newpage
+\paragraph{The Table}
+Here it is the personal table
+\begin{table}[htb] 
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    Column 1 & without filter& factor filter = 5& factor filter = 17\\
+    \hline
+    1:2& 2& 1& 1\\
+    1:4& 5& 4& 3\\
+    \end{tabular}
+    \caption{A table personal impression on a scale of 1-5 where 5 This is the intensity of a strong disturbance}
+    \label{tab:my_table}
+\end{table}
+\paragraph{Conclusions:  } We can infer from the results that: \\
+\begin{enumerate}
+    \item The further the sampling rate is from the Nyquist frequency, then the impersonation will be felt and seen more. 
+    \item Activating the filter reduces this phenomenon as you increase it. 
+    \item The larger the filter, the more blurred the image will be.  
+\end{enumerate}
+\newpage
+
+\section{PCM/DPCM - Questions:}
+Q1. In the PCM module, PSNR must be measured (at different bit rates) and evaluated for
+  Bit rate in which "Lena256B", "Camman256B", "Fruit256B" the pictures The side effects (artifacts) of PCM compression are visible (impression).\\
+Visually (in each of the pictures?
+Is the result the same, and why? In how many shades of gray can the images be represented at this rate? \\
+\textcolor{blue}{A1.} Artificats in "Lena256B", "Camman256B", "Fruit256B": 
+\paragraph{Fruit256 : } 
+PCM CODING RESULTS:
+   Coded bitrate 		: 3.0 (bpp)
+   Mean square error		: 77.0 
+   Signal-to-noise ratio	: 17.4 (dB)
+   PSNR			: 29.3 (dB)
+\\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images_assignment2/Q2S1.png}
+    \caption{$Bit-Rate = 3$}
+    \label{fig:enter-label}
+    
+    
+\end{figure}
+ \paragraph{Camman256 :} 
+ PCM CODING RESULTS:
+   Coded bitrate 		: 4.0 (bpp)
+   Mean square error		: 21.8 
+   Signal-to-noise ratio	: 22.6 (dB)
+   PSNR			: 34.7 (dB)
+ \\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images_assignment2/Q2S2_2.png}
+    \caption{$Bit-Rate = 4$}
+    \label{fig:enter-label}
+    
+    
+\end{figure}
+ \paragraph{Lena256 : } 
+ PCM CODING RESULTS:
+   Coded bitrate 		: 4.0 (bpp)
+   Mean square error		: 21.7 
+   Signal-to-noise ratio	: 21.0 (dB)
+   PSNR			: 34.8 (dB)
+
+ \\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images_assignment2/Q2S1_3.png}
+    \caption{$Bit-Rate = 4$}
+    \label{fig:enter-label}
+    
+    
+\end{figure}
+\[Bit-rate = 4 \implies 2^4 = 16 \text{ grey shades}\]
+\[Bit-rate = 3 \implies 2^3 = 8 \text{ grey shades}\] 
+\paragraph{Explanation :} With less amount of grey shades to describe the image. the more artifacts and more noticeable to the bare eye. short words, we can conclude that artifacts phenomena is created in the pictures are different depending on the range image frequencies and its values. in the picture of the \textbf{Lena}.
+in the variety of the pictures. At a bit rate of 4, it is possible to represent 16 shades of gray.
+\newpage
+
+Q2. \textbf{Open the image: B256Camman and the DPCM module} :\\
+2.1 With no channel errors and bpp6 bitrate check the prediction error variance
+For each prediction model (error prediction of variance) the figure appears in the column
+The results are on the right. \\
+\textcolor{blue}{A2.1.} Here it is a table of prediction error variance for each prediction model:
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{cc}
+         Predicition Model& Predicition Error Variance\\
+ $\begin{pmatrix}O & X \\ \end{pmatrix}$ & 504.8\\
+ 
+ $\begin{pmatrix}& O\\ O & X\end{pmatrix}$ & 296.5 \\ 
+ 
+ $\begin{pmatrix}O & O\\ O & X \end{pmatrix}$ & 231.8\\
+ 
+ $\begin{pmatrix} O & O & O\\ O & X \end{pmatrix}$ & 222.0 \\ 
+ 
+    \end{tabular}
+    \caption{The prediction error variance ON each prediction model}
+    \label{tab:my_label}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.70\linewidth]{images_assignment2/Q2S2.png}
+    \caption{prediction model - $\begin{pmatrix}
+ & \\
+O & X
+\end{pmatrix}$}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.70\linewidth]{images_assignment2/Q2S2_3.png}
+    \caption{prediction model - $\begin{pmatrix}
+ & O\\
+O & X
+\end{pmatrix}$}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.70\linewidth]{images_assignment2/Q2S2_4.png}
+    \caption{prediction model - $\begin{pmatrix}
+O & O\\
+O & X
+\end{pmatrix}$ }
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.70\linewidth]{images_assignment2/Q2S2_5.png}
+    \caption{prediction model - $\begin{pmatrix}
+O & O & O\\
+O & X
+\end{pmatrix}$}
+\end{figure}
+\newpage
+2.2 In this part we will work with two prediction models: the first - one pixel from the left, and the second - 2 pixels (from the left and above): the meaning of should be briefly explained The following tests: \\
+- Variance of the prediction error, which will estimate the compression of the information (entropy), and PSNR, and compare
+the results when you decrease the bit rate from bpp:6, to bpp5 and bpp2 without
+Channel error (note this in the last tab - Errors)! \\
+What can be concluded from the test regarding each of the above? Are the tests compatible?
+To what is expected in terms of the forecasting models and in terms of the resulting visual quality?\\
+Use tables or graphs to present the results!\\
+\textcolor{blue}{A2.2 } Let's create a table that depicts Entropy and PSNR within Bit-rate of 6 and 5 and 2. and also, with Prediction Variance Error. \\
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{|c|p{5cm}|p{5cm}|}
+        \hline
+         & \textbf{Variance Prediction Model 1} & \textbf{Variance Prediction Model 2} \\
+        \hline
+         Bit-Rate = 6 & Variance of prediction error: 504.8 Prediction gain: 7.9 \textbf{DPCM CODING RESULTS:} Coded bitrate: 6.0 (bpp) Est. entropy-coded bitrate: 4.9 (bpp) Mean square error: 1.1 Signal-to-noise ratio: 35.5 (dB) PSNR: 47.6 (dB) & Variance of prediction error: 296.5 Prediction gain: 13.4 \textbf{DPCM CODING RESULTS:} Coded bitrate: 6.0 (bpp) Est. entropy-coded bitrate: 4.9 (bpp) Mean square error: 0.6 Signal-to-noise ratio: 38.5 (dB) PSNR: 50.6 (dB) \\
+        \hline
+         Bit-Rate = 5 & Variance of prediction error: 504.8 Prediction gain: 7.9 \textbf{DPCM CODING RESULTS:} Coded bitrate: 5.0 (bpp) Est. entropy-coded bitrate: 4.1 (bpp) Mean square error: 3.9 Signal-to-noise ratio: 30.1 (dB) PSNR: 42.2 (dB) & Variance of prediction error: 296.5 Prediction gain: 13.4 \textbf{DPCM CODING RESULTS:} Coded bitrate: 5.0 (bpp) Est. entropy-coded bitrate: 4.1 (bpp) Mean square error: 1.9 Signal-to-noise ratio: 33.2 (dB) PSNR: 45.3 (dB) \\
+        \hline
+         Bit-Rate = 2 & Variance of prediction error: 504.8 Prediction gain: 7.9 \textbf{DPCM CODING RESULTS:} Coded bitrate: 2.0 (bpp) Est. entropy-coded bitrate: 1.7 (bpp) Mean square error: 215.6 Signal-to-noise ratio: 12.7 (dB) PSNR: 24.8 (dB) & Variance of prediction error: 296.5 Prediction gain: 13.4 \textbf{DPCM CODING RESULTS:} Coded bitrate: 2.0 (bpp) Est. entropy-coded bitrate: 1.7 (bpp) Mean square error: 186.3 Signal-to-noise ratio: 13.3 (dB) PSNR: 25.4 (dB) \\
+        \hline
+    \end{tabular}
+    \caption{Bit-Rate versus Variance of prediction - Camman256B}
+    \label{tab:my_label}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{images_assignment2/Q2S2_6.png}
+    \caption{GRAPH : Camman256B.bmp}
+    
+\end{figure}
+\paragraph{Conclusion:} Let's dive into each result and the connection to Variance Prediction Model and visual quality outcome. \\ 
+1. \textbf{Results:} in both Variance Prediction model as the bit-rate increase, the more PSNR value increase as well.\\
+2. \textbf{Visual Quality:} increasing of Bit-rate will enlarge the gray-shades amount and it will increase further details in the picture. therefore, the more Bit-rate the more it become similar to original picture. i.e the quality of the outcome improves.\\
+3. \textbf{Entropy:} we notice that Variance Prediction Model is not in effect but bit-rate. According the table above, the values of Entropy are equal despite the difference of Prediction Model. as a result, the more bit-rate it is, the more entropy value we get. Therefore, the more clear results that more similar to original picture at first place.\\ \\
+2.3 Draw a graph of   for the Camman image:
+Do the graph results match the theoretical predictions? \\
+Repeat this test for the B256Noise image. This image is of random noise,
+Is there a change compared to the \textbf{camman} image? It must be explained why. \\
+\textcolor{blue}{A2.3. }Now let's look into \textbf{Noise256B.bmp} image : 
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{|c|p{6cm}|p{6cm}|}
+        \hline
+         & \textbf{Variance Prediction Model 1} & \textbf{Variance Prediction Model 2} \\
+        \hline
+         Bit-Rate = 6 & Variance of prediction error: 5497.6 Prediction gain: 1.0 \textbf{DPCM CODING RESULTS:} Coded bitrate: 6.0 (bpp) Est. entropy-coded bitrate: 4.9 (bpp) Mean square error: 9.1 Signal-to-noise ratio: 27.8 (dB) PSNR: 38.6 (dB) & Variance of prediction error: 5497.6 Prediction gain: 1.0 \textbf{DPCM CODING RESULTS:} Coded bitrate: 6.0 (bpp) Est. entropy-coded bitrate: 4.9 (bpp) Mean square error: 9.1 Signal-to-noise ratio: 27.8 (dB) PSNR: 38.6 (dB) \\
+        \hline
+         Bit-Rate = 5 & Variance of prediction error: 5497.6 Prediction gain: 1.0 \textbf{DPCM CODING RESULTS:} Coded bitrate: 5.0 (bpp) Est. entropy-coded bitrate: 4.1 (bpp) Mean square error: 23.3 Signal-to-noise ratio: 23.7 (dB) PSNR: 34.5 (dB) & Variance of prediction error: 5497.6 Prediction gain: 1.0 \textbf{DPCM CODING RESULTS:} Coded bitrate: 5.0 (bpp) Est. entropy-coded bitrate: 4.1 (bpp) Mean square error: 23.3 Signal-to-noise ratio: 23.7 (dB) PSNR: 34.5 (dB) \\
+        \hline
+         Bit-Rate = 2 & Variance of prediction error: 5497.6 Prediction gain: 1.0 \textbf{DPCM CODING RESULTS:} Coded bitrate: 2.0 (bpp) Est. entropy-coded bitrate: 1.7 (bpp) Mean square error: 657.0 Signal-to-noise ratio: 9.2 (dB) PSNR: 20.0 (dB) & Variance of prediction error: 5497.6 Prediction gain: 1.0 \textbf{DPCM CODING RESULTS:} Coded bitrate: 2.0 (bpp) Est. entropy-coded bitrate: 1.7 (bpp) Mean square error: 657.0 Signal-to-noise ratio: 9.2 (dB) PSNR: 20.0 (dB) \\
+        \hline
+    \end{tabular}
+    \caption{Bit-Rate versus Variance of prediction - Noise256B}
+    \label{tab:my_label}
+\end{table}
+
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{images_assignment2/Q2S2_7.png}
+    \caption{GRAPH: Noise256B.bmp}
+\end{figure}
+\paragraph{Conclusion :} According to the results of the tests, it can be seen that the prediction model of 2 pixels is better for all The bit numbers we tested, in all of them the PSNR is higher. And you can see it visually In images, at a rate of 2 bits there is a smearing effect on the image when used
+In one pixel, while in two pixels it doesn't happen It can be seen that the results do correspond to the theoretical front, indeed when the bit rate Higher the PNSR will be higher. \\
+But unlike the noise image, we will get one function for each unifying prediction model and it is random noise and each predictor will give the same maximum error.
+\newpage
+\section{Huffman - Questions:}
+An image with a resolution of 4 bits per pixel is given, and has the following probability distribution: \\
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{images_assignment2/Q3.png}
+    
+\end{figure}
+
+You must apply uniform quantization (uniform quantization) to the symbols to 3 bits per pixel. \\
+Q1. Write down the table of probabilities of the quantified symbols $P(s')$. \\
+\textcolor{blue}{A1.} The table of probability of quantified symbols since $\frac{16}{2^3} = 2  $ to perform uniform quantization: \\
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        & A & B & C & D & E & F & G & H \\
+        \hline
+        $P(s')$ & 0.125 & 0.05 & 0.13 & 0 & 0.32 & 0 & 0.17 & 0.205 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+
+
+Q2. Based on the given probability distribution, the Huffman code must be constructed for the information Quantized to 3-bits. (The method of constructing the code and the resulting code must be presented in full). \\
+
+\textcolor{blue}{A2.} \paragraph{Huffman-Tree :}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images_assignment2/Tree_TEXT.png}
+    \caption{Huffman-Tree Organized Project}
+    
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images_assignment2/Huffman_TEXT.png}
+    \caption{Huffman-Tree Sorted Project}
+    
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Mapping From $S \rightarrow S'$ :}
+\begin{tabular}{|c|c|c|l|}
+\hline
+S & S' & Binary Form S' & Huffman \\
+\hline
+A = (1,2) & 0 & 000 & 000\\
+\hline
+B = (3,4) & 1 & 001 & 0010\\
+\hline
+C = (5,6) & 2 & 010 & 100\\
+\hline
+D = (7,8) & 3 & 011 & 00111\\
+\hline
+E = (9,10) & 4 & 100 & 11\\
+\hline
+F = (11,12) & 5 & 101 & 00110\\
+\hline
+H = (13,14) & 6 & 110 & 101\\
+\hline
+G = (15,16) & 7 & 111 & 01\\
+\hline
+\end{tabular}
+\end{table}
+
+Q3. Calculate the average length of the resulting code R, and the average compression ratio. \\
+\textcolor{blue}{A3.} In order to calculate the average length of resulting code R.
+\begin{align*}
+    R = \sum_{i=A}^{H} P(i) \cdot L(i) = (0.125 \cdot 3) + (0.05 \cdot 4) + (0.13 \cdot 3) + (0 \cdot 5)  + \\ (0.32 \cdot 2 ) + (0 \cdot 5) + (0.17 \cdot 3) + (0.205 \cdot 2) = 2.34 \text{ bits per symbol}
+\end{align*}
+\[\text{Compression Ratio } = \frac{R}{3} = \frac{2.34}{3} =0.78 \]
+Q4. Display the resulting code for the Huffman representation of the following input data series (I(X):\\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{images_assignemtn1/HuffmanQ-IMG2.png}
+    \label{fig:enter-label}
+\end{figure}
+
+\textcolor{blue}{A4.} The results of Huffman representation:
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c}
+         X(i)&  9&  14&  15&  1&  0&  9&  12&  14& 8 &4\\
+         Huf(X(i))&  00110&  01&  01&  0010&  000&  00110&  101&  01&  11&100\\
+    \end{tabular}
+    \caption{Question \#4}
+    \label{tab:my_label}
+\end{table}
+
+
+Q5. What is the average length of the received code for the above series? What is the compression ratio in this case? \\
+\textcolor{blue}{A5.} Let's do the math once again,\\
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lll}
+\toprule
+Quantized Symbol & Huffman Code & Code Length \\
+\midrule
+0 (A) & 000 & 3 \\
+1 (B) & 0010 & 4 \\
+4 © & 100 & 3 \\
+8 (E) & 11 & 2 \\
+9 (F) & 00110 & 5 \\
+12 (G) & 101 & 3 \\
+14 (H) & 01 & 2 \\
+\bottomrule
+\end{tabular}
+\caption{Mapping From $S \rightarrow S'$}
+\label{tab:mytable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{ll}
+\toprule
+Quantized Symbol & Frequency \\
+\midrule
+A & 1 \\
+B & 1 \\
+C & 1 \\
+E & 1 \\
+F & 2 \\
+G & 1 \\
+H & 2 \\
+15 & 1 \\
+\bottomrule
+\end{tabular}
+\caption{Quantized Symbol \& Frequency}
+\label{tab:mytable}
+\end{table}
+The average length of the received code, $R$, is calculated as follows:
+\begin{align*}
+R  &= \sum_{i=A}^{H} P(i) \cdot L(i) = \frac{1}{15} \times (3 \times 1 + 4 \times 1 + 3 \times 1 + 2 \times 1 \\
+& \quad + 5 \times 2 + 3 \times 1 + 2 \times 2 + 4 \times 1) = \frac{101}{15} \\
+&= 3.3 \text{ bits per symbol}
+\end{align*}
+\[\text{Compression Ratio } = \frac{R}{3} = \frac{3.3}{3} =1.1 \]
+
+
+Q6. Calculate the entropy of some signal, whose probabilities are given at the beginning
+the question, and compare with the entropy that will be obtained for the signal distributions quantized to 3-Bits. \\
+\textcolor{blue}{A6.} Given the probabilities at the beginning of the question:
+
+
+\begin{table}
+    \centering
+    \begin{tabular}{cccccccccclllllll}
+         symbol&  0&  1&  2&  3&  4&  5&  6&  7& 8 & 9& 10& 11& 12& 13&14 &15\\
+         P(s)&  0.1&  0.025&  0.03&  0.02&  0.11&  0.02&  0&  0& 0.02 & 0.3& 0& 0& 0.1& 0.07& 0.1&0.105\\
+         Entropy&  0.33&  0.133&  0.15&  0.11&  0.35&  0.11&  0&  0&  0.11& 0.52& 0& 0& 0.33& 0.26& 0.33&0.34\\
+    \end{tabular}
+    \caption{Entropy Calculation before quantization}
+    \label{tab:my_label}
+\end{table}
+
+We can calculate the entropy of the original signal as follows:
+\begin{align*}
+H(X) &= -[0.1\log_2(0.1) + 0.025\log_2(0.025) + 0.03\log_2(0.03) + 0.02\log_2(0.02) \\
+& \quad + 0.11\log_2(0.11) + 0.02\log_2(0.02) + 0.02\log_2(0.02) + 0.3\log_2(0.3) \\
+& \quad + 0.1\log_2(0.1) + 0.07\log_2(0.07) + 0.1\log_2(0.1) + 0.105\log_2(0.105)] = 3.073
+\end{align*}
+After Quantization:
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{ccccccccc}
+         symbol&  0&  1&  2&  3&  4&  5&  6&  7\\
+         P(s)&  0.125&  0.05&  0.13&  0&  0.32&  0&  0.17&  0.205\\
+         Entropy&  0.375&  0.216&  0.382&  0&  0.526&  0&  0.43&  0.468\\
+    \end{tabular}
+    \caption{Entropy Calculation after quantization}
+    \label{tab:my_label}
+\end{table}
+We can calculate the entropy of the quantized signal as follows: 
+\begin{align*}
+    H(Y) = -[0.125 \log_2(0.125) + 0.05 \log_2(0.05) + 0.13 \log_2(0.13) + 0.32 \log_2(0.32) \\ + 0.17 \log_2(0.17) + 0.205 \log_2(0.205)] = 2.397
+\end{align*}
+Therefore, $H(X) > H(Y)$ .
+\newpage
+\newpage
+\section{C/Python/Matlab - Questions:}
+Q1. You must write a function "(v(length\_entropy = S function), which receives a vector and calculates the length of the Huffman code required to encode this vector (there is no need to produce the The series is coded with the Huffman code, but only to calculate how many bits in total are needed for the vector representation ). Thus it calculates the minimum possible code length for the vector based on the entropy.  \\
+\textcolor{blue}{A1.}  In The \textbf{Asssignment\_2.py} file. \\
+Q2. When running the above function on Barbara's picture, what is the length of the code that is required To encode this image (the image must be treated as a long vector) according to the Huffman code and according to Calculating the entropy, explain the results. \\
+\textcolor{blue}{A2.} \textcolor{blue}{A1.}  In The \textbf{Asssignment\_2.py} file. \\
+\begin{itemize}
+    \item \textbf{Entropy:}
+\begin{itemize}
+        \item Reflecting the image's inherent information content.
+        \item Lower entropy suggests redundancy and better compression potential.
+\end{itemize}
+
+    \item \textbf{Huffman Coding:}
+\begin{itemize}
+        \item A lossless compression technique assigning shorter codes to more frequent symbols.
+        \item Achieves compression closer to entropy than fixed-length coding.
+\end{itemize}
+
+    \item \textbf{Compression Efficiency:}
+\begin{itemize}
+    \item Assessing the gap between entropy and Huffman lengths indicates potential for further compression.
+    \item \end{itemize}
+\end{itemize}
+
+Q3. Build a vector the size of the above image with randomly selected values (Random) Calculate the length of the Huffman code and the expected length according to the entropy For this picture, explain the results. \\
+\textcolor{blue}{A3.} \textbf{Image vs. Random Data:}
+\begin{itemize}
+        \item Comparing entropy and Huffman lengths reveals compressibility differences.
+        \item Images often exhibit redundancy and compress well, while random data often resists compression.
+\end{itemize}
+Q4. The difference between the results of the code length required for the image and the code must be explained required for the random signal. Compare to the compression results of some lossless compressor (zip....compress, Z, arj, rar) and explain the result. Is there a contradiction or a match? to the principles you learned. \\
+If there is a contradiction - try to explain it! (Hint: higher order entropy or entropy
+conditional). \\
+\textcolor{blue}{A4.} \textbf{The summary : }The difference in code length required for the image versus a random signal can be attributed to the inherent structure and predictability present in the image vector data compared to the randomness of the signal. Lossless compressors like ZIP, RAR, or ARJ are designed to exploit redundancies and patterns within data to achieve compression.
+
+In the case of the image, there are likely identifiable patterns and redundancies that can be exploited by both the code and conventional compressors, resulting in compression ratios close to the entropy value. However, for a random signal with little to no structure or predictability, compressors struggle to find patterns to exploit, leading to less efficient compression and longer code lengths.
+
+This aligns with the principles of entropy and Huffman coding, where data with higher predictability and structure can be compressed more effectively. Therefore, there is a match between the code's results and the principles learned.
+
+However, if there were a contradiction, it might stem from higher-order entropy or conditional entropy. Higher-order entropy considers correlations between symbols beyond pairs, which could affect compression efficiency. Conditional entropy measures the uncertainty of a symbol given the previous symbols, and if this is not adequately captured in the compression algorithm, it could lead to contradictions between expected and actual compression results.
+
+
+
+\newpage
+\section{Notes}
+In Question \#3 related to Huffman.
+it is possible to compress the Huffman tree by dis-attach nodes of zero probability, i.e. This will result in few needs of zeros with Huffman representation. however, it doesn't change the calculation over R and compressed-ratio.
+\begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.60\linewidth]{images_assignment2/Compressed Huffman 2.png}
+        \caption{Huffman Tree}
+        \label{fig:enter-label}
+    \end{figure}
+\begin{figure}[htbp]
+
+    \centering
+    \includegraphics[width=0.60\linewidth]{images_assignment2/Compressed Huffman.png}
+    \caption{Huffman Tree sorted by the nodes below }
+    \label{fig:enter-label}
+\end{figure}
+
+
+
+
+\end{document}
